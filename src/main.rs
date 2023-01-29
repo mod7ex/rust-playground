@@ -65,6 +65,8 @@ fn producer(tx :mpsc::SyncSender<usize>) -> thread::JoinHandle<()> {
 }
 
 fn worker(id: u64, shared_rx: Arc<Mutex<mpsc::Receiver<usize>>>) {
+    let builder = thread::Builder::new().name(format!("thread-{}", id));
+
     thread::spawn(move || loop {
         {
             match shared_rx.lock() {
@@ -72,7 +74,8 @@ fn worker(id: u64, shared_rx: Arc<Mutex<mpsc::Receiver<usize>>>) {
                     match rx.try_recv() {
                         Ok(n) => {
                             if is_prime(n) {
-                                println!("worker {} found a prime: {}", id, n);
+                                // println!("worker {} found a prime: {}", id, n);
+                                println!("worker {} found a prime: {}", thread::current().name().unwrap(), n);
                             }
                         },
                         Err(_) => ()
