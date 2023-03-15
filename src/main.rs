@@ -54,6 +54,8 @@ fn main() {
 }
 */
 
+/*
+
 fn is_prime(n: usize) -> bool {
     (2..n).all(|i| { n % i != 0 })
 }
@@ -69,21 +71,15 @@ fn worker(id: u64, shared_rx: Arc<Mutex<mpsc::Receiver<usize>>>) {
 
     thread::spawn(move || loop {
         {
-            match shared_rx.lock() {
-                Ok(rx) => {
-                    match rx.try_recv() {
-                        Ok(n) => {
-                            if is_prime(n) {
-                                // println!("worker {} found a prime: {}", id, n);
-                                println!("worker {} found a prime: {}", thread::current().name().unwrap(), n);
-                            }
-                        },
-                        Err(_) => ()
+            if let Ok(rx) = shared_rx.lock() {
+                if let Ok(n) = rx.try_recv() {
+                    if is_prime(n) {
+                        // println!("worker {} found a prime: {}", id, n);
+                        println!("worker {} found a prime: {}", thread::current().name().unwrap(), n);
                     }
-                },
-                Err(_) => ()
-            } 
-        }
+                }
+            }
+        } 
     });
 }
 
@@ -97,4 +93,52 @@ fn main() {
     }
 
     producer(tx).join().unwrap();
+}
+*/
+
+/*
+
+fn plus_one_by_ref(n: &mut usize) {
+    *n = *n + 1;
+}
+
+fn main() {
+    let mut i = 17;
+    plus_one_by_ref(&mut i);
+    println!("i: {}", i);
+    plus_one_by_ref(&mut i);
+    println!("i: {}", i);
+}
+*/
+
+fn main() {
+    /*
+    // ----------------------- immutable ptr
+    let a = 13;
+    let a_ptr: *const i32 = &a;
+    println!("{:#?}", a_ptr);
+    */
+
+    /*
+    // ----------------------- mutable ptr
+    let mut b = 10;
+    let b_ptr: *mut i32 = &mut b;
+    
+    println!("{:#?}", b_ptr);
+    unsafe {
+        *b_ptr = 20;
+    }
+    println!("{:#?}", b_ptr);
+    println!("{}", b);
+    */
+
+    let bx = Box::new(16);
+    let bx_ptr: *const i32 = &*bx;
+
+    println!("{:#?}", bx_ptr);
+    
+    let mut boxy = Box::new(17);
+    let boxy_ptr: *mut i32 = &mut *boxy;
+    
+    println!("{:#?}", boxy_ptr);
 }
