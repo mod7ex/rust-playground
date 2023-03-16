@@ -132,6 +132,7 @@ fn main() {
     println!("{}", b);
     */
 
+    /*
     let bx = Box::new(16);
     let bx_ptr: *const i32 = &*bx;
 
@@ -141,4 +142,22 @@ fn main() {
     let boxy_ptr: *mut i32 = &mut *boxy;
     
     println!("{:#?}", boxy_ptr);
+    */
+
+    /*
+    fn foo(x: &mut i32, y: &mut i32) -> i32 {
+        *x = 50;
+        *y = 99;
+        *x
+    }
+
+    let mut n = 0;
+    let n_ptr = &mut n as *mut i32;
+    let n_mut1 = unsafe { &mut *n_ptr };
+    let n_mut2 = unsafe { &mut *n_ptr };
+
+    println!("OUTPUT: {}", foo(n_mut1, n_mut2));
+
+    let v = String::from("Hello");
+    */
 }
