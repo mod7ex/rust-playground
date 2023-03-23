@@ -111,8 +111,8 @@ fn main() {
 }
 */
 
+/*
 fn main() {
-    /*
     // ----------------------- immutable ptr
     let a = 13;
     let a_ptr: *const i32 = &a;
@@ -159,5 +159,35 @@ fn main() {
     println!("OUTPUT: {}", foo(n_mut1, n_mut2));
 
     let v = String::from("Hello");
-    */
+}
+*/
+
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+
+    &s[..]
+}
+
+fn main() {
+    let mut s = String::from("Hello world");
+
+    let word = first_word(&s);
+
+    println!("{}", word);
+    
+    s.clear();
+
+    // ------------------
+
+    let a = [0, 1, 2, 3];
+    let v = &a[..2];
+
+    let v = vec![1, 2, 3, 4, 5];
+    let z = &v[..2];
 }
